@@ -1,30 +1,38 @@
 import { Injectable } from '@nestjs/common';
 
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductRepository } from './product.repository';
+import { ProductModel } from '@Model/product.model';
 
 @Injectable()
 export class ProductService {
   constructor(private productRepository: ProductRepository) {}
 
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  create(createProductDto: CreateProductDto): void {
+    this.productRepository.create(createProductDto);
   }
 
-  findAll() {
-    return `This action returns all product`;
+  bulk(createProductDtos: CreateProductDto[]): void {
+    this.productRepository.bulk(createProductDtos);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findAll(): ProductModel[] {
+    return this.productRepository.findAll();
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  findOne(id: string): ProductModel {
+    return this.productRepository.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  findByIds(ids: string[]): ProductModel[] {
+    return this.productRepository.findByIds(ids);
+  }
+
+  update(id: string, updateProductDto: CreateProductDto): void {
+    return this.productRepository.update(id, updateProductDto);
+  }
+
+  remove(id: string): void {
+    return this.productRepository.remove(id);
   }
 }

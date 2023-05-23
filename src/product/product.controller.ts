@@ -1,15 +1,17 @@
 import {
-  Controller,
   Get,
   Post,
   Body,
   Patch,
   Param,
   Delete,
+  Controller,
+  ParseArrayPipe,
+  Query,
 } from '@nestjs/common';
+
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -20,6 +22,14 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
+  @Post('/bulk')
+  bulk(
+    @Body(new ParseArrayPipe({ items: CreateProductDto }))
+    createProductDtos: CreateProductDto[],
+  ) {
+    return this.productService.bulk(createProductDtos);
+  }
+
   @Get()
   findAll() {
     return this.productService.findAll();
@@ -27,16 +37,24 @@ export class ProductController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
+    return this.productService.findOne(id);
+  }
+
+  @Get('/findByIds')
+  findByIds(
+    @Query('ids', new ParseArrayPipe({ items: String, separator: ',' }))
+    ids: string[],
+  ) {
+    return this.productService.findByIds(ids);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  update(@Param('id') id: string, @Body() updateProductDto: CreateProductDto) {
+    return this.productService.update(id, updateProductDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
+    return this.productService.remove(id);
   }
 }

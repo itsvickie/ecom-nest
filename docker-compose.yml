@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:13.11
+    container_name: ecom-postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+  redis:
+    image: redis:7.0.11
+    container_name: ecom-redis
+    ports:
+      - "6379:6379"

@@ -18,7 +18,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@Model/*": ["src/common/database/postgres/models/*"]
+      "@Prisma/*": ["src/common/database/prisma/*"],
     }
   }
 }

@@ -1,38 +1,38 @@
+import { Product } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductRepository } from './product.repository';
-import { ProductModel } from '@Model/product.model';
 
 @Injectable()
 export class ProductService {
   constructor(private productRepository: ProductRepository) {}
 
-  create(createProductDto: CreateProductDto): void {
+  async create(createProductDto: CreateProductDto): Promise<void> {
     this.productRepository.create(createProductDto);
   }
 
-  bulk(createProductDtos: CreateProductDto[]): void {
+  async bulk(createProductDtos: CreateProductDto[]): Promise<void> {
     this.productRepository.bulk(createProductDtos);
   }
 
-  findAll(): ProductModel[] {
+  async findAll(): Promise<Product[]> {
     return this.productRepository.findAll();
   }
 
-  findOne(id: string): ProductModel {
+  async findOne(id: string): Promise<Product> {
     return this.productRepository.findOne(id);
   }
 
-  findByIds(ids: string[]): ProductModel[] {
+  async findByIds(ids: string[]): Promise<Product[]> {
     return this.productRepository.findByIds(ids);
   }
 
-  update(id: string, updateProductDto: CreateProductDto): void {
+  async update(id: string, updateProductDto: CreateProductDto): Promise<void> {
     return this.productRepository.update(id, updateProductDto);
   }
 
-  remove(id: string): void {
+  async remove(id: string): Promise<void> {
     return this.productRepository.remove(id);
   }
 }

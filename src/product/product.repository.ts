@@ -1,53 +1,40 @@
-import { randomUUID } from 'crypto';
+import { Product } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
-import { ProductModel } from '@Model/product.model';
-import { ProductMock } from './__mocks__/product.mock';
 import { CreateProductDto } from './dto/create-product.dto';
-
+import { PrismaService } from '@Prisma/prisma.service';
+@Injectable()
 export class ProductRepository {
-  constructor(private productMocks: ProductModel[] = ProductMock) {}
+  constructor(private prisma: PrismaService) {}
 
-  create(createProductDto: CreateProductDto): void {
-    const newProduct: ProductModel = Object.assign(createProductDto, {
-      id: randomUUID(),
+  async create(createProductDto: CreateProductDto): Promise<void> {
+    await this.prisma.product.create({ data: createProductDto });
+  }
+
+  async bulk(createProductDtos: CreateProductDto[]): Promise<void> {
+    await this.prisma.product.createMany({ data: createProductDtos });
+  }
+
+  async findAll(): Promise<Product[]> {
+    return this.prisma.product.findMany();
+  }
+
+  async findOne(id: string): Promise<Product> {
+    return this.prisma.product.findUnique({ where: { id } });
+  }
+
+  async findByIds(ids: string[]): Promise<Product[]> {
+    return this.prisma.product.findMany({ where: { id: { in: ids } } });
+  }
+
+  async update(id: string, updateProductDto: CreateProductDto): Promise<void> {
+    await this.prisma.product.update({
+      where: { id },
+      data: updateProductDto,
     });
-    this.productMocks.push(newProduct);
   }
 
-  bulk(createProductDtos: CreateProductDto[]): void {
-    createProductDtos.map((createProductDto) => this.create(createProductDto));
-  }
-
-  findAll(): ProductModel[] {
-    return this.productMocks;
-  }
-
-  findOne(id: string): ProductModel {
-    return this.productMocks.find((product) => product.id === id);
-  }
-
-  findByIds(ids: string[]): ProductModel[] {
-    return this.productMocks.filter((product) => ids.includes(product.id));
-  }
-
-  update(id: string, updateProductDto: CreateProductDto): void {
-    const indexProduct = this.productMocks.findIndex((product) => {
-      product.id === id;
-    });
-    if (!indexProduct) return null;
-
-    this.productMocks[indexProduct].name = updateProductDto.name;
-    this.productMocks[indexProduct].price = updateProductDto.price;
-    this.productMocks[indexProduct].image_key = updateProductDto.image_key;
-    this.productMocks[indexProduct].description = updateProductDto.description;
-  }
-
-  remove(id: string): void {
-    const indexProduct = this.productMocks.findIndex((product) => {
-      product.id === id;
-    });
-    if (!indexProduct) return null;
-
-    this.productMocks.splice(indexProduct, 1);
+  async remove(id: string): Promise<void> {
+    await this.prisma.product.delete({ where: { id } });
   }
 }

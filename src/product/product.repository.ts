@@ -27,14 +27,17 @@ export class ProductRepository {
     return this.prisma.product.findMany({ where: { id: { in: ids } } });
   }
 
-  async update(id: string, updateProductDto: CreateProductDto): Promise<void> {
-    await this.prisma.product.update({
+  async update(
+    id: string,
+    updateProductDto: CreateProductDto,
+  ): Promise<Product> {
+    return await this.prisma.product.update({
       where: { id },
       data: updateProductDto,
     });
   }
 
-  async remove(id: string): Promise<void> {
-    await this.prisma.product.delete({ where: { id } });
+  async remove(id: string): Promise<Product> {
+    return await this.prisma.product.delete({ where: { id } });
   }
 }

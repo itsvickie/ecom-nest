@@ -8,11 +8,15 @@ import {
   Controller,
   ParseArrayPipe,
   Query,
+  Res,
+  HttpStatus,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { Product } from '@prisma/client';
 
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { EXCEPTION_CODES } from '../common/helpers/exceptions/exception-codes.enum';
 
 @Controller('product')
 export class ProductController {
@@ -53,12 +57,25 @@ export class ProductController {
   async update(
     @Param('id') id: string,
     @Body() updateProductDto: CreateProductDto,
-  ): Promise<void> {
-    return await this.productService.update(id, updateProductDto);
+    @Res() res: Response,
+  ): Promise<any> {
+    try {
+      await this.productService.update(id, updateProductDto);
+    } catch (e) {
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .send({ error: { message: EXCEPTION_CODES.E_RECORD_NOT_FOUND } });
+    }
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
-    return await this.productService.remove(id);
+  async remove(@Param('id') id: string, @Res() res: Response): Promise<any> {
+    try {
+      await this.productService.remove(id);
+    } catch (e) {
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .send({ error: { message: EXCEPTION_CODES.E_RECORD_NOT_FOUND } });
+    }
   }
 }

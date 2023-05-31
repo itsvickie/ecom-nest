@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@Prisma/*": ["src/common/database/prisma/*"],
+      "@Exception/*": ["src/common/helpers/exceptions/*"],
     }
   }
 }

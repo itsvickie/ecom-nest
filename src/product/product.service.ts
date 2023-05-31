@@ -9,30 +9,33 @@ export class ProductService {
   constructor(private productRepository: ProductRepository) {}
 
   async create(createProductDto: CreateProductDto): Promise<void> {
-    this.productRepository.create(createProductDto);
+    await this.productRepository.create(createProductDto);
   }
 
   async bulk(createProductDtos: CreateProductDto[]): Promise<void> {
-    this.productRepository.bulk(createProductDtos);
+    await this.productRepository.bulk(createProductDtos);
   }
 
   async findAll(): Promise<Product[]> {
-    return this.productRepository.findAll();
+    return await this.productRepository.findAll();
   }
 
   async findOne(id: string): Promise<Product> {
-    return this.productRepository.findOne(id);
+    return await this.productRepository.findOne(id);
   }
 
   async findByIds(ids: string[]): Promise<Product[]> {
-    return this.productRepository.findByIds(ids);
+    return await this.productRepository.findByIds(ids);
   }
 
-  async update(id: string, updateProductDto: CreateProductDto): Promise<void> {
-    return this.productRepository.update(id, updateProductDto);
+  async update(
+    id: string,
+    updateProductDto: CreateProductDto,
+  ): Promise<Product> {
+    return await this.productRepository.update(id, updateProductDto);
   }
 
-  async remove(id: string): Promise<void> {
-    return this.productRepository.remove(id);
+  async remove(id: string): Promise<Product> {
+    return await this.productRepository.remove(id);
   }
 }

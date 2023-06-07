@@ -17,6 +17,7 @@ import { EnvironmentService } from './environments.service';
         DB_USERNAME: Joi.string(),
         DB_PASSWORD: Joi.string(),
         DB_NAME: Joi.string(),
+        JWT_SECRET: Joi.string(),
       }),
     }),
   ],

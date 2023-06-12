@@ -9,6 +9,7 @@ import { ProductService } from './product/product.service';
 import { ProductController } from './product/product.controller';
 import { ProductRepository } from './product/product.repository';
 import { EnvironmentService } from '@Envs/environments.service';
+import { PrismaService } from '@Prisma/prisma.service';
 
 @Module({
   imports: [],
@@ -21,6 +22,7 @@ import { EnvironmentService } from '@Envs/environments.service';
     PasswordHelper,
     ProductRepository,
     EnvironmentService,
+    PrismaService,
   ],
 })
 export class MainModule {}

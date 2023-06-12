@@ -1,5 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
 
 import { UserRepository } from './user.repository';
 import { PasswordHelper } from '@Helpers/password.hash';
@@ -15,6 +16,7 @@ export class UserService {
     private readonly passwordHelper: PasswordHelper,
     private readonly jwtService: JwtService,
     private readonly environmentsService: EnvironmentService,
+    private readonly mailerService: MailerService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<void> {
@@ -22,6 +24,8 @@ export class UserService {
       createUserDto.password,
     );
 
+    // TODO: Ver os parâmetros necessários
+    await this.mailerService.sendMail({ to: createUserDto.email, html: 'hey' });
     await this.userRepository.create(createUserDto);
   }
 
@@ -44,7 +48,7 @@ export class UserService {
           access_level: user.access_level,
         };
         const access_token = await this.jwtService.signAsync(payload, {
-          privateKey: this.environmentsService.getJwtSecret,
+          privateKey: process.env.JWT_SECRET,
         });
 
         return { access_token, user: payload };

@@ -10,9 +10,27 @@ import { ProductController } from './product/product.controller';
 import { ProductRepository } from './product/product.repository';
 import { EnvironmentService } from '@Envs/environments.service';
 import { PrismaService } from '@Prisma/prisma.service';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
-  imports: [],
+  // TODO: Descobrir como se conectar ao mailtrap no docker :)
+  imports: [
+    MailerModule.forRoot({
+      transport: {
+        host: 'smtp.mailtrap.io',
+        secure: false,
+        port: 80,
+        auth: {
+          user: 'mailtrap',
+          pass: 'mailtrap',
+        },
+        ignoreTLS: true,
+      },
+      defaults: {
+        from: 'teste@gmail.com',
+      },
+    }),
+  ],
   controllers: [ProductController, UserController],
   providers: [
     JwtService,

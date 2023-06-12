@@ -17,4 +17,8 @@ export class EnvironmentService {
   get getDatabaseUrl(): string {
     return this.configService.get('DB_URL', { infer: true });
   }
+
+  get getJwtSecret(): string {
+    return this.configService.get('JWT_SECRET', { infer: true });
+  }
 }

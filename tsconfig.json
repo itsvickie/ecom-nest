@@ -21,6 +21,7 @@
       "@Prisma/*": ["src/common/database/prisma/*"],
       "@Exception/*": ["src/common/helpers/exceptions/*"],
       "@Helpers/*": ["src/common/helpers/*"],
+      "@Envs/*": ["src/common/environments/*"],
     }
   }
 }

@@ -17,11 +17,9 @@ services:
     container_name: ecom-redis
     ports:
       - "6379:6379"
-  mailtrap:
-    image: eaudeweb/mailtrap
-    container_name: mailtrap
-    ports:
-      - "80:80"
-    environment:
-      - MT_USER=${MAILTRAP_USER}
-      - MT_PASSWD=${MAILTRAP_PASSWD}
+  mailhog:
+      image: mailhog/mailhog
+      container_name: 'mailhog'
+      ports:
+        - "1025:1025"
+        - "8025:8025"

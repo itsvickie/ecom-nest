@@ -25,7 +25,11 @@ export class UserService {
     );
 
     // TODO: Ver os parâmetros necessários
-    await this.mailerService.sendMail({ to: createUserDto.email, html: 'hey' });
+    await this.mailerService.sendMail({
+      to: createUserDto.email,
+      from: 'vcamilaxs@gmail.com',
+      html: 'hey',
+    });
     await this.userRepository.create(createUserDto);
   }
 
@@ -48,7 +52,7 @@ export class UserService {
           access_level: user.access_level,
         };
         const access_token = await this.jwtService.signAsync(payload, {
-          privateKey: process.env.JWT_SECRET,
+          privateKey: this.environmentsService.getJwtSecret,
         });
 
         return { access_token, user: payload };

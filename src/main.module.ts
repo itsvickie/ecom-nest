@@ -1,44 +1,33 @@
 import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { MailerModule } from '@nestjs-modules/mailer';
+import { ConfigService } from '@nestjs/config';
 
 import { UserService } from './user/user.service';
+import { MailerService } from '@Mailer/mailer.service';
 import { PrismaService } from '@Prisma/prisma.service';
 import { UserRepository } from './user/user.repository';
 import { PasswordHelper } from '@Helpers/password.hash';
 import { UserController } from './user/user.controller';
 import { ProductService } from './product/product.service';
+import { EnvironmentService } from '@Envs/environments.service';
 import { ProductController } from './product/product.controller';
 import { ProductRepository } from './product/product.repository';
-import { EnvironmentService } from '@Envs/environments.service';
-import { ConfigService } from '@nestjs/config';
+import { MailerModule } from '@Mailer/mailer.module';
 
 @Module({
-  // TODO: Descobrir como se conectar ao mailtrap no docker :)
-  imports: [
-    MailerModule.forRoot({
-      transport: {
-        host: 'localhost',
-        secure: false,
-        port: 1025,
-        ignoreTLS: true,
-      },
-      defaults: {
-        from: 'teste@gmail.com',
-      },
-    }),
-  ],
+  imports: [MailerModule.forRoot({ isGlobal: true })],
   controllers: [ProductController, UserController],
   providers: [
     JwtService,
     UserService,
-    ProductService,
-    UserRepository,
-    PasswordHelper,
-    ProductRepository,
-    EnvironmentService,
     PrismaService,
     ConfigService,
+    MailerService,
+    UserRepository,
+    PasswordHelper,
+    ProductService,
+    ProductRepository,
+    EnvironmentService,
   ],
 })
 export class MainModule {}

@@ -12,5 +12,5 @@ export class CreateUserDto {
 
   @IsString()
   @IsOptional()
-  access_level: 'admin' | 'regular';
+  access_level?: 'admin' | 'regular';
 }

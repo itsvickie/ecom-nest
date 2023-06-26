@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/request/create-user.dto';
@@ -19,5 +19,10 @@ export class UserController {
     @Body() signInUserDto: SignInUserDto,
   ): Promise<SignInUserResponseDto> {
     return await this.userService.signIn(signInUserDto);
+  }
+
+  @Get('/active')
+  async activeAccount(@Query('code') code: string): Promise<void> {
+    await this.userService.activeAccount(code);
   }
 }

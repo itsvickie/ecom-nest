@@ -16,10 +16,12 @@ export class ProductService {
     await this.productRepository.bulk(createProductDtos);
   }
 
+  // TODO: Custom exception
   async findAll(): Promise<Product[]> {
     return await this.productRepository.findAll();
   }
 
+  // TODO: Custom exception
   async findOne(id: string): Promise<Product> {
     return await this.productRepository.findOne(id);
   }
@@ -28,6 +30,7 @@ export class ProductService {
     return await this.productRepository.findByIds(ids);
   }
 
+  // TODO: Custom exception
   async update(
     id: string,
     updateProductDto: CreateProductDto,
@@ -35,6 +38,7 @@ export class ProductService {
     return await this.productRepository.update(id, updateProductDto);
   }
 
+  // TODO: Custom exception
   async remove(id: string): Promise<Product> {
     return await this.productRepository.remove(id);
   }

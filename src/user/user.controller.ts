@@ -16,6 +16,7 @@ export class UserController {
 
   @Post('/signin')
   async signIn(
+    // TODO: Implementar o filter exception
     @Body() signInUserDto: SignInUserDto,
   ): Promise<SignInUserResponseDto> {
     return await this.userService.signIn(signInUserDto);

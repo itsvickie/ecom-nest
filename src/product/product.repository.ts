@@ -7,10 +7,6 @@ import { PrismaService } from '@Prisma/prisma.service';
 export class ProductRepository {
   constructor(private prisma: PrismaService) {}
 
-  async create(createProductDto: CreateProductDto): Promise<void> {
-    await this.prisma.product.create({ data: createProductDto });
-  }
-
   async bulk(createProductDtos: CreateProductDto[]): Promise<void> {
     await this.prisma.product.createMany({ data: createProductDtos });
   }
@@ -27,13 +23,11 @@ export class ProductRepository {
     return this.prisma.product.findMany({ where: { id: { in: ids } } });
   }
 
-  async update(
-    id: string,
-    updateProductDto: CreateProductDto,
-  ): Promise<Product> {
-    return await this.prisma.product.update({
-      where: { id },
-      data: updateProductDto,
+  async createOrUpdate(dataProduct: CreateProductDto): Promise<Product> {
+    return await this.prisma.product.upsert({
+      where: { id: dataProduct.id },
+      update: dataProduct,
+      create: dataProduct,
     });
   }
 

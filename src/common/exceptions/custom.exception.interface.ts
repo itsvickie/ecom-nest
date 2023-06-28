@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 
-import { ExceptionMessages } from './custom.exception.messages.enum';
+import { ExceptionCodes } from './custom.exception.codes.enum';
 
 export interface CustomInterface {
   message: string;
@@ -8,5 +8,5 @@ export interface CustomInterface {
 }
 
 export type ExceptionMessageInterface = {
-  [key in ExceptionMessages]: CustomInterface;
+  [key in ExceptionCodes]: CustomInterface;
 };

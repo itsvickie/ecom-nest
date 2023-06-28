@@ -34,14 +34,11 @@ export class UserService {
         userCreated.email,
         userCreated.validate_code,
       );
-    } catch (error) {
+    } catch {
       throw new CustomException(
         CustomExceptionMessages.E_INTERNAL_SERVER_ERROR,
       );
     }
-
-    // TODO: Exceptions
-    // TODO: Criar validações customizadas
   }
 
   // TODO: Create a auth service with jwt strategy
@@ -75,6 +72,12 @@ export class UserService {
   }
 
   async activeAccount(validateCode: string): Promise<void> {
-    await this.userRepository.activeUserByValidateCode(validateCode);
+    try {
+      await this.userRepository.activeUserByValidateCode(validateCode);
+    } catch {
+      throw new CustomException(
+        CustomExceptionMessages.E_INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

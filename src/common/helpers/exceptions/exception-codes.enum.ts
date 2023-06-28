@@ -1,3 +1,0 @@
-export enum EXCEPTION_CODES {
-  E_RECORD_NOT_FOUND = 'E_RECORD_NOT_FOUND',
-}

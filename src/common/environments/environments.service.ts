@@ -23,4 +23,16 @@ export class EnvironmentService {
   get getJwtSecret(): string {
     return this.configService.get('JWT_SECRET', { infer: true });
   }
+
+  get getRedisConnectionConfig(): {
+    host: string;
+    port: number;
+    password: string;
+  } {
+    return {
+      host: this.configService.get<string>('REDIS_URL'),
+      port: this.configService.get<number>('REDIS_PORT'),
+      password: this.configService.get<string>('REDIS_PASSWORD'),
+    };
+  }
 }

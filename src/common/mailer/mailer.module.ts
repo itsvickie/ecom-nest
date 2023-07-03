@@ -3,9 +3,12 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { MailerModule as Mailer } from '@nestjs-modules/mailer';
 
 import { MailerService } from './mailer.service';
+import { QueueService } from '@Queue/queue.service';
 
 @Module({
   imports: [
+    // TODO: Tirar as envs
+    // TODO: Tirar a string na linha 20
     Mailer.forRoot({
       transport: {
         host: process.env.MAIL_HOST,
@@ -24,7 +27,7 @@ export class MailerModule {
     return {
       global: options.isGlobal,
       module: MailerModule,
-      providers: [MailerService],
+      providers: [MailerService, QueueService],
       exports: [MailerService],
     };
   }

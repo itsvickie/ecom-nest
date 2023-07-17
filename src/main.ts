@@ -3,9 +3,12 @@ import { ValidationPipe } from '@nestjs/common';
 
 import { MainModule } from './main.module';
 import { HttpExceptionFilter } from '@Exceptions/http-exception.filter';
+import { initEnvironmentVariables } from './common/main/environments-variables.init';
 
 async function bootstrap() {
   const app = await NestFactory.create(MainModule);
+  const environmentsVariable = initEnvironmentVariables(app);
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
@@ -13,6 +16,6 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  await app.listen(3000);
+  await app.listen(environmentsVariable.getAppPort);
 }
 bootstrap();

@@ -1,14 +1,35 @@
 import { Module } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { MailerModule } from '@nestjs-modules/mailer';
 
-import { PrismaModule } from '@Prisma/prisma.module';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { EnvironmentService } from '@Envs/environments.service';
-import { MailerService } from '@Mailer/mailer.service';
+import { UserRepository } from './user.repository';
+import { QueueService } from '@Queue/queue.service';
+import { PrismaService } from '@Prisma/prisma.service';
+import { PasswordHelper } from '@Helpers/password.hash';
+import { MailerService } from '@Mailer/services/mailer.service';
+import { MailerTemplateService } from '@Mailer/services/mailer.template.service';
+import { EnvironmentVariablesService } from '@Envs/environments-variables.service';
+import { MailerEnvironmentVariableService } from '@Mailer/services/mailer.environments-variable.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
+  imports: [MailerModule],
   controllers: [UserController],
-  providers: [UserService],
-  imports: [PrismaModule, EnvironmentService, MailerService],
+  providers: [
+    ConfigService,
+    JwtService,
+    UserService,
+    QueueService,
+    PrismaService,
+    MailerService,
+    MailerService,
+    PasswordHelper,
+    UserRepository,
+    MailerTemplateService,
+    EnvironmentVariablesService,
+    MailerEnvironmentVariableService,
+  ],
 })
 export class UserModule {}

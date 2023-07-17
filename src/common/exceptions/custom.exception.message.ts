@@ -36,4 +36,12 @@ export const CustomExceptionMessages: ExceptionMessageInterface = {
     message: ExceptionCodes.E_NOT_FOUND,
     statusCode: HttpStatus.NOT_FOUND,
   },
+  E_INVALID_AUTHORIZATION_HEADER: {
+    message: ExceptionCodes.E_INVALID_AUTHORIZATION_HEADER,
+    statusCode: HttpStatus.UNAUTHORIZED,
+  },
+  E_UNAUTHORIZED: {
+    message: ExceptionCodes.E_UNAUTHORIZED,
+    statusCode: HttpStatus.UNAUTHORIZED,
+  },
 };

@@ -21,7 +21,7 @@
       "@Prisma/*": ["src/common/database/prisma/*"],
       "@Exception/*": ["src/common/helpers/exceptions/*"],
       "@Helpers/*": ["src/common/helpers/*"],
-      "@Envs/*": ["src/common/environments/*"],
+      "@Envs/*": ["src/common/environments-variables/*"],
       "@Mailer/*": ["src/common/mailer/*"],
       "@Exceptions/*": ["src/common/exceptions/*"],
       "@Queue/*": ["src/common/queue/*"],

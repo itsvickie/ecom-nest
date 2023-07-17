@@ -2,14 +2,16 @@ import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 
 import { UserRepository } from './user.repository';
-import { MailerService } from '@Mailer/mailer.service';
+import { MailerService } from '@Mailer/services/mailer.service';
 import { PasswordHelper } from '@Helpers/password.hash';
+import { ISendMailerOptions } from '@Mailer/mailer.interface';
 import { CreateUserDto } from './dto/request/create-user.dto';
 import { SignInUserDto } from './dto/request/signin-user.dto';
 import { CustomException } from '@Exceptions/custom.exception';
-import { EnvironmentService } from '@Envs/environments.service';
+import { EnvironmentVariablesService } from '@Envs/environments-variables.service';
 import { SignInUserResponseDto } from './dto/response/signin-user.dto';
 import { CustomExceptionMessages } from '@Exceptions/custom.exception.message';
+import { MailerTemplateEnum } from '@Mailer/mailer.enum';
 
 @Injectable()
 export class UserService {
@@ -18,7 +20,7 @@ export class UserService {
     private readonly mailerService: MailerService,
     private readonly passwordHelper: PasswordHelper,
     private readonly userRepository: UserRepository,
-    private readonly environmentsService: EnvironmentService,
+    private readonly environmentsService: EnvironmentVariablesService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<void> {
@@ -26,15 +28,19 @@ export class UserService {
       createUserDto.password,
     );
 
-    // TODO: Implementar Fila
     try {
       const userCreated = await this.userRepository.create(createUserDto);
 
-      await this.mailerService.sendConfirmAccountEmail(
-        userCreated.email,
-        userCreated.validate_code,
-      );
-    } catch {
+      const mailer: ISendMailerOptions = {
+        mailOptions: {
+          to: userCreated.email,
+        },
+        templateEmail: MailerTemplateEnum.EMAIL_CONFIRM_ACCOUNT,
+        confirmCode: userCreated.validate_code,
+      };
+
+      await this.mailerService.sendMail(mailer);
+    } catch (e) {
       throw new CustomException(
         CustomExceptionMessages.E_INTERNAL_SERVER_ERROR,
       );

@@ -1,13 +1,21 @@
 import { Queue } from 'bullmq';
+import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 
-import { EnvironmentService } from '@Envs/environments.service';
+import { QUEUES_MAP } from './queue.constant';
+import { EnvironmentVariablesService } from '@Envs/environments-variables.service';
 
-export class QueueService {
+@Injectable()
+export class QueueService implements OnApplicationBootstrap {
+  private readonly bullQueues = new Map<string, Queue>();
+
   constructor(
-    private readonly bullQueues: Map<string, Queue>,
-    private readonly environmentService: EnvironmentService,
-  ) {
-    this.bullQueues = new Map<string, Queue>();
+    private readonly environmentService: EnvironmentVariablesService,
+  ) {}
+
+  onApplicationBootstrap() {
+    QUEUES_MAP.forEach((value) => {
+      this.setQueue(value);
+    });
   }
 
   setQueue(name: string): void {

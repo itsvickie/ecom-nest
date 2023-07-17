@@ -1,3 +1,3 @@
-export enum Queues {
-  QUEUE_CONFIRM_ACCOUNT_EMAIL = 'QUEUE_CONFIRM_ACCOUNT_EMAIL',
+export enum QueuesKeys {
+  MAILER = 'mailer',
 }

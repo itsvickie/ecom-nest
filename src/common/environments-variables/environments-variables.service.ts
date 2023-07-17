@@ -1,11 +1,12 @@
-import { ConfigService } from '@nestjs/config';
-import { EnvironmentInterface } from './environments.interface';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
+import { EnvironmentVariablesInterface } from './environments-variables.interface';
 
 @Injectable()
-export class EnvironmentService {
+export class EnvironmentVariablesService {
   constructor(
-    private readonly configService: ConfigService<EnvironmentInterface>,
+    private readonly configService: ConfigService<EnvironmentVariablesInterface>,
   ) {}
 
   get getNodeEnv(): string {
@@ -30,9 +31,20 @@ export class EnvironmentService {
     password: string;
   } {
     return {
-      host: this.configService.get<string>('REDIS_URL'),
+      host: this.configService.get<string>('REDIS_HOST'),
       port: this.configService.get<number>('REDIS_PORT'),
       password: this.configService.get<string>('REDIS_PASSWORD'),
     };
+  }
+
+  get getEnvironmentUrl(): string {
+    switch (this.configService.get('NODE_ENV')) {
+      case 'development':
+        return `http://localhost:${this.configService.get('APP_PORT')}`;
+      case 'test' || 'staging':
+        return this.configService.get<string>('ENV_STAGING_URL');
+      case 'production':
+        return this.configService.get<string>('ENV_PRODUCTION_URL');
+    }
   }
 }

@@ -1,4 +1,4 @@
-export interface EnvironmentInterface {
+export interface EnvironmentVariablesInterface {
   NODE_ENV: 'test' | 'development';
   APP_PORT: string;
   DB_URL: string;
@@ -7,11 +7,13 @@ export interface EnvironmentInterface {
   DB_USERNAME: string;
   DB_PASSWORD: string;
   DB_NAME: string;
-  REDIS_URL: string;
+  REDIS_HOST: string;
   REDIS_PORT: number;
   REDIS_PASSWORD: string;
   MAIL_HOST: string;
   MAIL_PORT: number;
   MAIL_FROM: string;
   JWT_SECRET: string;
+  ENV_STAGING_URL: string;
+  ENV_PRODUCTION_URL: string;
 }

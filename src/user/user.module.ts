@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 
 import { UserService } from './user.service';
@@ -12,7 +13,6 @@ import { MailerService } from '@Mailer/services/mailer.service';
 import { MailerTemplateService } from '@Mailer/services/mailer.template.service';
 import { EnvironmentVariablesService } from '@Envs/environments-variables.service';
 import { MailerEnvironmentVariableService } from '@Mailer/services/mailer.environments-variable.service';
-import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [MailerModule],

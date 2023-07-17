@@ -25,6 +25,7 @@
       "@Mailer/*": ["src/common/mailer/*"],
       "@Exceptions/*": ["src/common/exceptions/*"],
       "@Queue/*": ["src/common/queue/*"],
+      "@Middleware/*": ["src/common/middlewares/*"],
     }
   }
 }
